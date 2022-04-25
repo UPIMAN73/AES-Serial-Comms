@@ -458,7 +458,6 @@ void decryptBlock(uint8_t * in, uint8_t * out, uint8_t * rkeys)
  */
 uint8_t * encryptECB(uint8_t * in, uint32_t inlen, uint8_t * key)
 {
-    printf("IN LENGTH: %d\n", inlen);
     checkLength(inlen);
     uint8_t *out = new uint8_t[inlen];
     uint8_t *rkeys = new uint8_t[4 * AES_128_BKey_Size * (AES_128_ROUNDS + 1)];
@@ -695,6 +694,11 @@ uint8_t * removePad(uint8_t * text, uint32_t len)
             if (text[len-actual_value-1] != actual_value)
             {
                 actual_value = actual_value;
+                // Clean up the values
+                for (uint32_t i = 0; i < actual_value; i++)
+                {
+                    text[len-i-1] = 0x00; // Set the value to zero
+                }
             }
 
             // Not an actual padding value
@@ -711,7 +715,7 @@ uint8_t * removePad(uint8_t * text, uint32_t len)
         }
 
         // now write the unpadded text
-        output = new uint8_t[(len - actual_value + 1)];
+        output = new uint8_t[(len - actual_value)];
         for (uint32_t i =  0; i < (len - actual_value); i++)
         {
             output[i] = text[i];
@@ -727,5 +731,16 @@ uint8_t * removePad(uint8_t * text, uint32_t len)
     {
         return  text;
     }
+}
+
+/**
+ * @brief 
+ * 
+ * @param text 
+ * @return char* 
+ */
+char * toStr(uint8_t * text)
+{
+    return ((char *) text);
 }
 #endif
