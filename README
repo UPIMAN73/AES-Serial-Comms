@@ -1,0 +1,4 @@
+### Notice
+This AES implmentation for the MKRWAN series has code from the tiny_aes_c library coming from Koke.
+
+https://github.com/kokke/tiny-AES-c
